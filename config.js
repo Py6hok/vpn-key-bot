@@ -2,7 +2,7 @@ require('dotenv').config();
 
 exports.tgbot = {
     apikey : (process.env.API_KEY || undefined), 
-    mode : (process.env.MODE || "DEV"),
+    mode : (process.env.MODE || "PROD"),
     admin : {
         id : undefined,
         username : undefined,     
