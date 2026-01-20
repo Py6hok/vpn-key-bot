@@ -26,7 +26,7 @@ const logMessage = async (message, logDate) => {
     }
 };
 
-const saveFile = async (ctx, fileId, filename) => {
+const saveFile = async (ctx, fileId, filename, logDate) => {
     try {
         const uploadDir = path.join(baseUploadDir, logDate);
         if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
@@ -60,7 +60,7 @@ exports.logger = async (ctx, next) => {
     if (ctx.message?.photo?.length) {
         const photo = ctx.message.photo[ctx.message.photo.length - 1];
         const filename = path.join(uploadDir, `${photo.file_id}.jpg`);
-        if (await saveFile(ctx, photo.file_id, filename)) {
+        if (await saveFile(ctx, photo.file_id, filename, logDate)) {
             const message = `${timestamp} [${userTag}] Фото сохранено: ${filename}`;
             console.log(message);
             await logMessage(message, logDate);
@@ -71,7 +71,7 @@ exports.logger = async (ctx, next) => {
     if (ctx.message?.document) {
         const doc = ctx.message.document;
         const filename = path.join(uploadDir, `${doc.file_id}-${doc.file_name}`);
-        if (await saveFile(ctx, doc.file_id, filename)) {
+        if (await saveFile(ctx, doc.file_id, filename, logDate)) {
             const message = `${timestamp} [${userTag}] Документ сохранён: ${filename}`;
             console.log(message);
             await logMessage(message, logDate);
@@ -82,7 +82,7 @@ exports.logger = async (ctx, next) => {
     if (ctx.message?.sticker) {
         const sticker = ctx.message.sticker;
         const filename = path.join(uploadDir, `${sticker.file_id}.webp`);
-        if (await saveFile(ctx, sticker.file_id, filename)) {
+        if (await saveFile(ctx, sticker.file_id, filename, logDate)) {
             const message = `${timestamp} [${userTag}] Стикер сохранён: ${filename}`;
             console.log(message);
             await logMessage(message, logDate);
@@ -93,7 +93,7 @@ exports.logger = async (ctx, next) => {
     if (ctx.message?.voice) {
         const voice = ctx.message.voice;
         const filename = path.join(uploadDir, `${voice.file_id}.ogg`);
-        if (await saveFile(ctx, voice.file_id, filename)) {
+        if (await saveFile(ctx, voice.file_id, filename, logDate)) {
             const message = `${timestamp} [${userTag}] Голосовое сообщение сохранено: ${filename}`;
             console.log(message);
             await logMessage(message, logDate);
