@@ -3,6 +3,7 @@ const moment = require('moment');
 const path = require('path');
 const fetch = require('node-fetch');
 
+const logDate = moment().format('YYYY-MM-DD');
 const baseLogDir = path.join(__dirname, '..', 'logs');
 const baseUploadDir = path.join(__dirname, '..', 'uploads');
 const uploadDir = path.join(baseUploadDir, logDate);
@@ -45,7 +46,6 @@ const saveFile = async (ctx, fileId, filename, logDate) => {
 
 exports.logger = async (ctx, next) => {
     const timestamp = getTimeStamp();
-    const logDate = moment().format('YYYY-MM-DD');
     
     const userTag = getUserTag(ctx);
 
