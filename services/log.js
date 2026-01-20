@@ -5,6 +5,7 @@ const fetch = require('node-fetch');
 
 const baseLogDir = path.join(__dirname, '..', 'logs');
 const baseUploadDir = path.join(__dirname, '..', 'uploads');
+const uploadDir = path.join(baseUploadDir, logDate);
 
 const getTimeStamp = () => {
     const time = moment().locale('ru').format('LTS');
@@ -28,7 +29,6 @@ const logMessage = async (message, logDate) => {
 
 const saveFile = async (ctx, fileId, filename, logDate) => {
     try {
-        const uploadDir = path.join(baseUploadDir, logDate);
         if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
         const fileLink = await ctx.telegram.getFileLink(fileId);
